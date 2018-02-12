@@ -1,6 +1,6 @@
 package fifteen_puzzle_main;
+import java.util.ArrayList;
 import java.util.Random;
-
 
 /*
  * MAP Dimensions
@@ -23,13 +23,17 @@ public class main_class
 			{13,14,15,0}
 	};
 	static Node map[][] = new Node[MAX_SIZE][MAX_SIZE];
+	static ArrayList<Node> open = new ArrayList<Node>();	//a list of nodes to be looked at
+	static ArrayList<Node> closed = new ArrayList<Node>();	//a list of nodes already looked at
 	static Random rand = new Random();
 	static boolean dev_mode = true;
 	
-	
-	private static class Node
+	/*private static class Node
 	{
 		int value = -1;
+		int g_cost = 0; // cost to start node
+		int h_cost = 0; // estunated cost to goal's location
+		int f_cost = 0; // f = g+h
 		
 		//for locations
 		int x , y;
@@ -40,7 +44,18 @@ public class main_class
 			goal_x = x = x_; 
 			goal_y = y = y_;
 		}
-	}
+		
+		boolean atGoal(int y_, int x_)
+		{
+			if(goal_x == x_ && goal_y ==y)
+				return true;
+			
+			//if(MAP[y][x] == value)
+			//		return true;
+			
+			return false;
+		}
+	}*/
 	
 	public static void print(String s) {
 		System.out.print(s);
@@ -104,6 +119,20 @@ public class main_class
 		}
 	}
 	
+	public static boolean atGoal(Node n, int y, int x)
+	{
+		if(n.goal_x == x && n.goal_y == y)
+			return true;
+		
+		return false;
+	}
+
+	
+	public static void run()
+	{
+		
+	}
+	
 	public static void main(String[] args)
 	{
 		// Creating an array of nodes
@@ -152,6 +181,7 @@ public class main_class
 					Node temp= map[r_y][r_x];
 					map[r_y][r_x]= map[y][x];
 					map[y][x] = temp;
+					
 					
 					//map[r_y][r_x].y = y;
 					//map[r_y][r_x].x = x;
