@@ -18,6 +18,7 @@ public class FifteenPuzzleSolver extends make_life_easier{
 	public static void main(String [] args) {
 		int threadCount = 1;
 		
+		//This is for calling the java file in the terminal (Rob)
 		if (args.length > 0)
 			threadCount = Integer.parseInt(args[0]);
 		
@@ -41,9 +42,13 @@ public class FifteenPuzzleSolver extends make_life_easier{
 	public FifteenPuzzleSolver(int threadCount) {
 		if (threadCount > 1)
 		{
-			
 			// this will change!!!
 			//throw new RuntimeException("No support for multiple threads :(");	
+			
+			
+			
+			
+			
 		}
 				
 	}

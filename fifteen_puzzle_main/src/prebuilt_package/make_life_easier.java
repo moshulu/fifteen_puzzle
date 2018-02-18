@@ -1,4 +1,12 @@
 package prebuilt_package;
+/**
+ * Just to make life a little easier when coding
+ * 
+ * 
+ * @author rob
+ * 
+ */
+
 
 public class make_life_easier
 {
