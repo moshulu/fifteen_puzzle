@@ -3,7 +3,6 @@ package prebuilt_package;
 import java.util.LinkedList;
 import java.util.List;
 
-
 /**
  * An implementation of a solver for the 15-puzzle.  This implementation uses an A* search strategy.
  * 
@@ -14,7 +13,7 @@ import java.util.List;
  * @author andrew (orginal)
  * modified by Roberto (Rob) and Todd
  */
-public class FifteenPuzzleSolver {
+public class FifteenPuzzleSolver extends make_life_easier{
 
 	public static void main(String [] args) {
 		int threadCount = 1;
@@ -25,24 +24,28 @@ public class FifteenPuzzleSolver {
 		FifteenPuzzleSolver fps = new FifteenPuzzleSolver(threadCount);
 		Board board = Board.createBoard();
 		
-		System.out.println("Using " + threadCount + " threads to solve this board: \n" + board);
-		System.out.println();
+		println("Using " + threadCount + " threads to solve this board: \n" + board+"\n");
 		
 		long ts = System.currentTimeMillis();
 		List<Board> solution = fps.solve(board);
 		long elapsed = System.currentTimeMillis() - ts;
 		
-		System.out.println("Found a solution with " + solution.size() + " moves!");
-		System.out.println("Elapsed time: " + ((double)elapsed) / 1000.0 + " seconds");
+		println("Found a solution with " + solution.size() + " moves!");
+		println("Elapsed time: " + ((double)elapsed) / 1000.0 + " seconds");
 		for (int i=0;i<solution.size();i++) {
-			System.out.println(solution.get(i));
+			println(""+solution.get(i));
 		}
 		
 	}
 	
 	public FifteenPuzzleSolver(int threadCount) {
 		if (threadCount > 1)
-			throw new RuntimeException("No support for multiple threads :(");		
+		{
+			
+			// this will change!!!
+			//throw new RuntimeException("No support for multiple threads :(");	
+		}
+				
 	}
 	
 	public List<Board> solve (Board board) {
