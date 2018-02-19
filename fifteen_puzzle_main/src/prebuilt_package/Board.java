@@ -12,7 +12,7 @@ import java.util.Random;
  * modified by Roberto (Rob) and Todd
  *
  */
-public class Board {
+public class Board extends make_life_easier{
 
 	// use a fixed random number seed, for reproducibility
 	private static final Random random = new Random(11023);
@@ -62,8 +62,8 @@ public class Board {
 			}
 		}
 		
-		assert (isValidIndex(emptyIndex));
-		return emptyIndex;
+		assert (isValidIndex(emptyIndex)); // (Rob) this is basically a test and/or a simplified version of a try/catch
+		return emptyIndex;				// but it is not used for catching exceptions!!
 	}
 	
 	// generate all valid board configurations within one move of this board
@@ -71,20 +71,28 @@ public class Board {
 		List<Board> list = new ArrayList<Board>();
 		int emptyIndex = this.getEmptyIndex();
 		
+		println("Current Board:");
+		print(toString());
+		
 		// above
+		println("Above");
 		tryToAddMove(list,emptyIndex,emptyIndex - 4);
 		
 		// below
+		println("Below");
 		tryToAddMove(list,emptyIndex,emptyIndex + 4);
 		
 		// left
+		println("Left");
 		if ( (emptyIndex % 4) != 0)
 			tryToAddMove(list,emptyIndex,emptyIndex - 1);
 		
 		// right
+		println("Right");
 		if ( (emptyIndex % 4) != 3)
 			tryToAddMove(list,emptyIndex,emptyIndex  + 1);
 		
+		// (Rob) when they call the tryToAddMove(), the list variable gets updated!
 		return list;
 	}
 
@@ -97,6 +105,13 @@ public class Board {
 		copy[emptyIndex] = copy[targetIndex];
 		copy[targetIndex] = 0;
 		
+		//println(copy.toString()); (Rob) testing!!
+		for (int i=0;i<copy.length;i++) {
+			print(copy[i] + "  ");
+			
+			if ( (i % 4) == 3)
+				print("\n");
+		}
 		list.add(new Board(copy));
 	}
 	
@@ -119,6 +134,16 @@ public class Board {
 		int col = emptyIndex % 4;
 		
 		return row + col;
+	}
+	
+	public void print_board()
+	{
+		for (int i=0;i<board.length;i++) {
+			print(board[i] + " ");
+			
+			if ( (i % 4) == 3)
+				println("\n");
+		}
 	}
 	
 	@Override

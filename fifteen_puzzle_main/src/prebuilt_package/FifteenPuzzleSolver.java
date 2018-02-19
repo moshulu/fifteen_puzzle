@@ -71,6 +71,12 @@ public class FifteenPuzzleSolver extends make_life_easier{
 		}
 	}
 	
+	public static void quick_print(String s, int c, int m)
+	{
+		println(s+" cDepth: "+ c+ "\tmaxDepth: "+ m);
+	}
+	
+	
 	/**
 	 * Look for solution with up to maxDepth moves
 	 * 
@@ -83,6 +89,7 @@ public class FifteenPuzzleSolver extends make_life_easier{
 	 */
 	private List<Board> doSolve(Board board, int currentDepth, int maxDepth) {
 		if (board.isSolved()) {
+			
 			List<Board> list = new LinkedList<Board>();
 			list.add(board);
 			return list;
@@ -90,7 +97,11 @@ public class FifteenPuzzleSolver extends make_life_easier{
 		
 		// stop searching if we can't solve the puzzle within our maximum depth allotment
 		if ((currentDepth + board.minimumSolutionDepth()) > maxDepth)
+		{
+			//quick_print("Returning null. ", currentDepth, maxDepth);
 			return null;
+		}
+			
 		
 		// search for neighboring moves...
 		List<Board> nextMoves = board.generateSuccessors();
@@ -99,6 +110,7 @@ public class FifteenPuzzleSolver extends make_life_easier{
 			if (solution != null) {
 				// prepend this board to the solution, and return
 				solution.add(0,board);
+				//quick_print("Found solution! @ cDepth: ", currentDepth, maxDepth);
 				return solution;
 			}
 		}
