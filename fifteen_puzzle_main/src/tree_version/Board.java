@@ -26,7 +26,7 @@ public class Board extends make_life_easier{
 	
 	public Board parent=null;
 	public Board[] children= new Board[4];//public Board left, up, down, right;
-	public ArrayList<Board> children_again = new ArrayList<Board>();
+	//public ArrayList<Board> children_again = new ArrayList<Board>(); // Program does not like this. Too much for each object?
 	public static Board winning_board=null;
 	public int current_depth= 1;
 	public static final int LEFT=0, UP=1, RIGHT=2, DOWN=3;
@@ -38,7 +38,7 @@ public class Board extends make_life_easier{
 	public static ConcurrentLinkedQueue<Board> nextDepth = new ConcurrentLinkedQueue<Board>();
 	public static int cDepth= 0;//counter for debug tracking
 	public int empty_index= -1;
-	public static Object[][][][][][][] history;
+	//public static Object[][][][][][][] history;
 	
 	/**
 	 * Create a randomized initial board
@@ -263,8 +263,6 @@ public class Board extends make_life_easier{
 						nextDepth.add(children[DOWN]);
 						children[DOWN].empty_index = this.empty_index+4;
 				}
-					
-				
 		}
 	}
 	
@@ -520,8 +518,6 @@ public class Board extends make_life_easier{
 			if(Arrays.equals(child.board, child.parent.parent.board))
 				return null;
 		}
-		
-		
 		
 		return (child);
 	}
