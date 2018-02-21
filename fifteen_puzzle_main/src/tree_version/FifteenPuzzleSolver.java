@@ -1,4 +1,4 @@
-package prebuilt_package;
+package tree_version;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class FifteenPuzzleSolver extends make_life_easier implements Runnable{
 
-	public static void main(String [] args) {
+	public static void OLDmain(String [] args) {
 		int threadCount = 1;
 		
 		//This is for calling the java file in the terminal (Rob)
@@ -39,6 +39,48 @@ public class FifteenPuzzleSolver extends make_life_easier implements Runnable{
 		
 	}
 	
+	@SuppressWarnings("static-access")
+	public static void main(String [] args) {
+		int threadCount = 1;
+		
+		//This is for calling the java file in the terminal (Rob)
+		if (args.length > 0)
+			threadCount = Integer.parseInt(args[0]);
+		
+		FifteenPuzzleSolver fps = new FifteenPuzzleSolver(threadCount);
+		Board board = Board.createBoard();
+		board.solution=board.board;
+		//Board start = new Board();
+		board.currDepth.add(new Board());
+		//board.check_hash(board.board);
+		
+		println("Using " + threadCount + " threads to solve this board: \n" + board+"\n");
+		
+		long ts = System.currentTimeMillis();
+		//List<Board> solution = fps.solve(board);
+		//board.run();
+		board.run_one_thread();
+		//board.test();
+		long elapsed = System.currentTimeMillis() - ts;
+		
+		//println("Found a solution with " + solution.size() + " moves!");
+		println("Found a solution with " + board.solvedDepth + " moves!");
+		println("Elapsed time: " + ((double)elapsed) / 1000.0 + " seconds");
+		
+		if(board.winning_board != null)
+			board.winner(board.winning_board);
+		else
+			println("No solution");
+		
+		/*
+		for (int i=0;i<solution.size();i++) {
+			println(""+solution.get(i));
+		}*/
+		
+	}
+	
+	
+	
 	public FifteenPuzzleSolver(int threadCount) {
 		if (threadCount > 1)
 		{
@@ -57,7 +99,7 @@ public class FifteenPuzzleSolver extends make_life_easier implements Runnable{
 	{
 		//solve();
 	}
-	
+
 	
 	public List<Board> solve (Board board) {
 				
@@ -111,7 +153,7 @@ public class FifteenPuzzleSolver extends make_life_easier implements Runnable{
 			
 		
 		// search for neighboring moves...
-		List<Board> nextMoves = board.generateSuccessors();
+		List<Board> nextMoves = board.OLDgenerateSuccessors();
 		for (Board nextBoard : nextMoves) {
 			List<Board> solution = doSolve(nextBoard,currentDepth+1,maxDepth);
 			if (solution != null) {

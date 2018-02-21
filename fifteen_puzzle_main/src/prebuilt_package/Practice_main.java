@@ -7,12 +7,6 @@ public class Practice_main
 	
 	public static void main(String args[]) throws IOException
 	{
-		Runtime.getRuntime().exec("F:\\Programs_FILES\\Notepad++.exe");
-	}
-	
-	
-	public static void ma(String args[])
-	{
 		
 		/*
 		Thread_practice obj1 = new Thread_practice("obj 1", 1);

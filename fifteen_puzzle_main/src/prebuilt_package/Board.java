@@ -17,8 +17,9 @@ public class Board extends make_life_easier{
 	// use a fixed random number seed, for reproducibility
 	private static final Random random = new Random(11023);
 	private static final int INITIALIZATION_MOVES = 55;
-	
+	public static long counter=0;
 	private final int[] board;
+	
 	
 	/**
 	 * Create a randomized initial board
@@ -41,12 +42,16 @@ public class Board extends make_life_easier{
 	
 		for (int i=0;i<16;i++)
 			board[i]= i;
+		
+		//counter++;
 	}
 
 	
 	private Board (int [] b) {
 		this.board = b;
+		//counter++;
 	}
+
 	
 	private static final boolean isValidIndex(int i) {
 		return ((i>=0) && (i < 16));
@@ -71,28 +76,30 @@ public class Board extends make_life_easier{
 		List<Board> list = new ArrayList<Board>();
 		int emptyIndex = this.getEmptyIndex();
 		
-		println("Current Board:");
-		print(toString());
+		//println("Current Board:");
+		//print(toString());
 		
 		// above
-		println("Above");
+		//println("Above");
 		tryToAddMove(list,emptyIndex,emptyIndex - 4);
 		
 		// below
-		println("Below");
+		//println("Below");
 		tryToAddMove(list,emptyIndex,emptyIndex + 4);
 		
 		// left
-		println("Left");
+		//println("Left");
 		if ( (emptyIndex % 4) != 0)
 			tryToAddMove(list,emptyIndex,emptyIndex - 1);
 		
 		// right
-		println("Right");
+		//println("Right");
 		if ( (emptyIndex % 4) != 3)
 			tryToAddMove(list,emptyIndex,emptyIndex  + 1);
 		
+		
 		// (Rob) when they call the tryToAddMove(), the list variable gets updated!
+		
 		return list;
 	}
 
@@ -107,10 +114,11 @@ public class Board extends make_life_easier{
 		
 		//println(copy.toString()); (Rob) testing!!
 		for (int i=0;i<copy.length;i++) {
-			print(copy[i] + "  ");
+			//print(copy[i] + "  ");
 			
 			if ( (i % 4) == 3)
-				print("\n");
+				;
+				//print("\n");
 		}
 		list.add(new Board(copy));
 	}
