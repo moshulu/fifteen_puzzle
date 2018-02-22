@@ -2,7 +2,7 @@ package tree_version;
 
 import java.util.LinkedList;
 import java.util.List;
-
+import java.util.Scanner;
 /**
  * An implementation of a solver for the 15-puzzle.  This implementation uses an A* search strategy.
  * 
@@ -41,11 +41,34 @@ public class FifteenPuzzleSolver extends make_life_easier implements Runnable{
 	
 	@SuppressWarnings("static-access")
 	public static void main(String [] args) {
-		int threadCount = 1;
+		int threadCount = -1;
+		int arbirtary_range = 10;
 		
 		//This is for calling the java file in the terminal (Rob)
 		if (args.length > 0)
 			threadCount = Integer.parseInt(args[0]);
+		else
+		{
+			Scanner input = new Scanner(System.in);
+			do {
+				try {
+					println("How many threads would you like to run? (1-"+arbirtary_range+")");
+					int temp = input.nextInt();
+					
+					if(temp >=1 && temp<=arbirtary_range)
+					{
+						threadCount = temp;
+						break;
+					}
+				}
+				catch(Exception e)
+				{
+					error("\nInvalid input!\tPlease try again.");
+					input = new Scanner(System.in);
+				}
+			}
+			while(true);
+		}
 		
 		FifteenPuzzleSolver fps = new FifteenPuzzleSolver(threadCount);
 		Board board = Board.createBoard();
