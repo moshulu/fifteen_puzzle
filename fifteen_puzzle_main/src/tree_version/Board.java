@@ -14,7 +14,7 @@ import java.util.concurrent.*;
  * modified by Roberto (Rob) and Todd
  *
  */
-public class Board extends make_life_easier{
+public class Board extends make_life_easier implements Runnable{
 
 	// use a fixed random number seed, for reproducibility
 	private static final Random random = new Random(11023);
@@ -317,26 +317,57 @@ public class Board extends make_life_easier{
 		//print("Size of curreDepth: "+ currDepth.size()+"\n");
 		if(!currDepth.isEmpty())
 		{
-			Board temp = currDepth.remove();
-			if(Arrays.equals(temp.board, solution))
+			try
 			{
-				solved = true;
-				solvedDepth= temp.current_depth;
-				winning_board = temp;
-				return;
+				Board temp = currDepth.remove();
+				
+				//for checking
+				if(cDepth >=17)
+				{
+					//println(Thread.currentThread().getName());
+					//print_board();//println(this.board);
+				}
+				
+				
+				if(Arrays.equals(temp.board, solution))
+				{
+					solved = true;
+					solvedDepth= temp.current_depth;
+					winning_board = temp;
+					return;
+				}
+				
+				temp.createChildren(true);
+				
+			}
+			catch(Exception e)
+			{
+				error("Something bad happened:  "+ Thread.currentThread().getName()+ "\n"+e.toString()+
+						"\n\t"+e.getStackTrace());
 			}
 			
-			temp.createChildren(true);
 		}
 		else
 		{
 			//going to make the nextDepth as currDepth
 			//println("["+cDepth+"]C-Depth: "+ currDepth.size()+"\tNext depth: "+ nextDepth.size());
-			//println("Next Depth: "+ nextDepth.size());
+			
 			currDepth= nextDepth;
 			cDepth++;
 			nextDepth= new ConcurrentLinkedQueue<Board>();
-			println("Depth: "+ cDepth);
+			
+			if(cDepth==1)
+			{
+				int a = Thread.activeCount();
+				
+				//Main thread counts as one
+				if(a>1)
+					a--;
+				println("Threads: "+ a+"\n");
+			}
+				
+			println("[ "+cDepth+" ]: "+  currDepth.size());
+			//println("Depth: "+ cDepth);
 		}
 	}
 	

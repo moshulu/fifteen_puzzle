@@ -3,6 +3,9 @@ package tree_version;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.ExecutorService;  
+import java.util.concurrent.Executors;  
+import java.util.concurrent.*;
 /**
  * An implementation of a solver for the 15-puzzle.  This implementation uses an A* search strategy.
  * 
@@ -13,8 +16,12 @@ import java.util.Scanner;
  * @author andrew (orginal)
  * modified by Roberto (Rob) and Todd
  */
-public class FifteenPuzzleSolver extends make_life_easier implements Runnable{
-
+public class FifteenPuzzleSolver extends make_life_easier {
+	
+	private ExecutorService pool;
+	
+	
+	
 	public static void OLDmain(String [] args) {
 		int threadCount = 1;
 		
@@ -60,11 +67,15 @@ public class FifteenPuzzleSolver extends make_life_easier implements Runnable{
 						threadCount = temp;
 						break;
 					}
+					else
+					{
+						error("Invalid range. Please try again.");
+					}
 				}
 				catch(Exception e)
 				{
 					error("\nInvalid input!\tPlease try again.");
-					input = new Scanner(System.in);
+					input = new Scanner(System.in);//for some reason I need this here
 				}
 			}
 			while(true);
@@ -82,10 +93,12 @@ public class FifteenPuzzleSolver extends make_life_easier implements Runnable{
 		long ts = System.currentTimeMillis();
 		//List<Board> solution = fps.solve(board);
 		//board.run();
-		board.run_one_thread();
+		//board.run_one_thread();
+		fps.startSearching(board, threadCount);
 		//board.test();
 		long elapsed = System.currentTimeMillis() - ts;
 		
+		fps.shutdown();
 		//println("Found a solution with " + solution.size() + " moves!");
 		println("Found a solution with " + board.solvedDepth + " moves!");
 		println("Elapsed time: " + ((double)elapsed) / 1000.0 + " seconds");
@@ -107,15 +120,24 @@ public class FifteenPuzzleSolver extends make_life_easier implements Runnable{
 	public FifteenPuzzleSolver(int threadCount) {
 		if (threadCount > 1)
 		{
-			// this will change!!!
-			//throw new RuntimeException("No support for multiple threads :(");	
-			
-			
-			
-			
-			
+			pool = Executors.newFixedThreadPool(threadCount);
 		}
-				
+	}
+	
+	@SuppressWarnings("static-access")
+	public void startSearching(Board mainBoard, int threadCount)
+	{
+		if(threadCount==1)
+		{
+			mainBoard.run_one_thread();
+		}
+		else
+		{
+			while(mainBoard.solved == false)//current_depth < 100)
+			{
+				pool.execute(mainBoard);
+			}
+		}
 	}
 	
 	public void run()
@@ -123,6 +145,11 @@ public class FifteenPuzzleSolver extends make_life_easier implements Runnable{
 		//solve();
 	}
 
+	private void shutdown()
+	{
+		if(pool!= null && !pool.isShutdown())
+			pool.shutdown();
+	}
 	
 	public List<Board> solve (Board board) {
 				
